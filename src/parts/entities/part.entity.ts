@@ -1,5 +1,5 @@
 import { Category } from 'src/categories/entities/category.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
 
 @Entity('products')
 export class Part {
@@ -30,7 +30,7 @@ export class Part {
   @Column({ default: true })
   inStock: boolean;
 
-  @ManyToMany(() => Category, (category) => category.parts)
+  @ManyToMany(() => Category, (category) => category.parts, {onDelete: "CASCADE"})
   categories: Category[];
 
    @Column('simple-array', { nullable: true })
