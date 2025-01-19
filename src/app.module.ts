@@ -22,11 +22,7 @@ import * as fs from 'fs';
       username: 'vali',  // Foydalanuvchi nomi
       password: 'wIN4RPOJDLTQ9Qo14AJlvQ',  // Parol
       entities: [Part, User],  // Entity-lar
-      synchronize: true,  // Avtomatik jadvallarni yaratish
-      ssl: {
-        rejectUnauthorized: false,  // SSL tekshiruvi
-        ca: fs.readFileSync('C:/Users/valir/AppData/Roaming/postgresql/root.crt').toString(),  // Sertifikat
-      },
+      synchronize: true, 
     }),
     PartsModule,
     AuthModule, 
