@@ -22,7 +22,7 @@ export class PartsService {
     if (!file) {
       throw new BadRequestException('Rasm yuklanmadi!');
     }
-    const fileUrl = `http://localhost:3000/uploads/${file.filename}`;
+    const fileUrl = `https://car-parts-1.onrender.com/products/upload/${file.filename}`;
     return { message: 'Rasm muvaffaqiyatli yuklandi!', fileUrl };
   }
   
