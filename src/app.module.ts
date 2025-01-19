@@ -15,11 +15,7 @@ import { join } from 'path';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: '1234',
-      database: 'carparts',
+      url: 'postgresql://postgres:ErdIsXOcisObQVfqzSOJMyQdioQhrHZn@postgres.railway.internal:5432/railway',
       entities: [Part, User],
       synchronize: true, 
     }),
