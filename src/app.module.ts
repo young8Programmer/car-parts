@@ -6,7 +6,6 @@ import { User } from './auth/entities/auth.entity';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { PartsModule } from './parts/parts.module';
-import * as fs from 'fs';
 
 @Module({
   imports: [
@@ -16,16 +15,16 @@ import * as fs from 'fs';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'tender-monarch-7282.j77.aws-eu-central-1.cockroachlabs.cloud',  // Host
-      port: 26257,  // Port
-      database: 'defaultdb',  // Database nomi
-      username: 'vali',  // Foydalanuvchi nomi
-      password: 'wIN4RPOJDLTQ9Qo14AJlvQ',  // Parol
-      entities: [Part, User],  // Entity-lar
-      synchronize: true, 
+      host: 'dpg-cu6iq1dsvqrc738j18c0-a', // Postgres host
+      port: 5432, // Postgres port
+      database: 'postgresql_9eoz', // Ma'lumotlar bazasi nomi
+      username: 'postgresql_9eoz_user', // Foydalanuvchi nomi
+      password: 'Xp2A37RfR5ypHiWckZY6GsOohzndOCnm', // Parolni kiriting
+      entities: [Part, User], // Entitylar
+      synchronize: true, // Ma'lumotlar bazasi jadval tuzilmasini sinxronlashtirish
     }),
     PartsModule,
-    AuthModule, 
+    AuthModule,
   ],
   controllers: [],
   providers: [],
