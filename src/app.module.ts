@@ -15,7 +15,7 @@ import { join } from 'path';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      url: 'postgresql://postgres:nUqFvdrnZfEGNrDdrzzrvvDWxWJkHHZt@postgres.railway.internal:5432/railway',
+      url: 'postgresql://vali:wIN4RPOJDLTQ9Qo14AJlvQ@tender-monarch-7282.j77.aws-eu-central-1.cockroachlabs.cloud:26257/defaultdb?sslmode=verify-full',
       entities: [Part, User],
       synchronize: true,
       ssl: {
