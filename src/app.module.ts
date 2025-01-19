@@ -17,7 +17,10 @@ import { join } from 'path';
       type: 'postgres',
       url: 'postgresql://postgres:ErdIsXOcisObQVfqzSOJMyQdioQhrHZn@postgres.railway.internal:5432/railway',
       entities: [Part, User],
-      synchronize: true, 
+      synchronize: true,
+      ssl: {
+      rejectUnauthorized: false,
+      },
     }),
     PartsModule,
     AuthModule, 
