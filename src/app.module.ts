@@ -11,7 +11,7 @@ import { PartsModule } from './parts/parts.module';
   imports: [
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),
-      serveRoot: '/uploads',
+      serveRoot: 'products/uploads',
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
