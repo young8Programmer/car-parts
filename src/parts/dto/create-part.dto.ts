@@ -1,4 +1,5 @@
 import { IsString, IsNumber, IsNotEmpty, IsOptional, IsArray } from 'class-validator';
+import { Category } from '../../categories/entities/category.entity';
 
 export class CreatePartDto {
   @IsString()
@@ -7,7 +8,7 @@ export class CreatePartDto {
 
   @IsString()
   @IsNotEmpty()
-  name: string; 
+  name: string;
 
   @IsString()
   @IsOptional()
@@ -19,22 +20,23 @@ export class CreatePartDto {
 
   @IsNumber()
   @IsOptional()
-  translationGroup?: number;  
+  translationGroup?: number;
 
   @IsString()
   @IsOptional()
-  shortDescription?: string; 
+  shortDescription?: string;
 
   @IsString()
   @IsOptional()
-  description?: string; 
+  description?: string;
 
   @IsNotEmpty()
-  inStock: boolean; 
+  inStock: boolean;
 
-  @IsString()
+  // Kategoriyalarni faqat id larini qabul qilish
+  @IsArray()
   @IsOptional()
-  categories?: string; 
+  categories: number[];  // Category id array
 
   @IsArray()
   @IsOptional()
@@ -42,28 +44,28 @@ export class CreatePartDto {
 
   @IsString()
   @IsOptional()
-  carName?: string;  
+  carName?: string;
 
   @IsString()
   @IsOptional()
-  model?: string; 
+  model?: string;
 
   @IsString()
   @IsOptional()
-  oem?: string; 
+  oem?: string;
 
   @IsString()
   @IsOptional()
-  years?: string;  
+  years?: string;
 
   @IsNumber()
   @IsOptional()
-  price?: number; 
+  price?: number;
 
   @IsString()
   @IsOptional()
-  imageUrl?: string; 
-  
+  imageUrl?: string;
+
   @IsString()
   @IsOptional()
   trtCode?: string;
@@ -71,5 +73,4 @@ export class CreatePartDto {
   @IsString()
   @IsOptional()
   brand?: string;
-
 }

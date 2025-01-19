@@ -6,6 +6,8 @@ import { User } from './auth/entities/auth.entity';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { PartsModule } from './parts/parts.module';
+import { CategoriesModule } from './categories/categories.module';
+import { Category } from './categories/entities/category.entity';
 
 @Module({
   imports: [
@@ -15,16 +17,18 @@ import { PartsModule } from './parts/parts.module';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'dpg-cu6iq1dsvqrc738j18c0-a', // Postgres host
-      port: 5432, // Postgres port
-      database: 'postgresql_9eoz', // Ma'lumotlar bazasi nomi
-      username: 'postgresql_9eoz_user', // Foydalanuvchi nomi
-      password: 'Xp2A37RfR5ypHiWckZY6GsOohzndOCnm', // Parolni kiriting
-      entities: [Part, User], // Entitylar
-      synchronize: true, // Ma'lumotlar bazasi jadval tuzilmasini sinxronlashtirish
+      host: 'localhost',
+      port: 5432,
+      database: 'carparts',
+      username: 'postgres',
+      password: '1234',
+      entities: [Part, User, Category],
+      synchronize: true,
     }),
     PartsModule,
     AuthModule,
+    CategoriesModule,
+    CategoriesModule
   ],
   controllers: [],
   providers: [],

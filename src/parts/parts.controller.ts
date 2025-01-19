@@ -1,10 +1,12 @@
-import { Controller, Get, Post, Body, Param, Query, Delete, Put, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Query, Delete, Put, UseInterceptors, UploadedFile, Res } from '@nestjs/common';
 import { PartsService } from './parts.service';
 import { CreatePartDto } from './dto/create-part.dto';
 import { UpdatePartDto } from './dto/update-part.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { extname } from 'path';
+import path, { extname } from 'path';
+import { Response } from 'express';
+
 
 @Controller('products')
 export class PartsController {
@@ -82,9 +84,21 @@ async uploadFile(@UploadedFile() file: Express.Multer.File) {
      return await this.partsService.search(name, oem, trt, brand, model);
    }
 
-  @Get('part/category/:category')
-  async getPartsByCategory(@Param('category') category: string) {
-    return await this.partsService.getPartsByCategory(category);
+   @Get('part/category/:categoryId')
+  async getPartsByCategory(@Param('categoryId') categoryId: number) {
+  return await this.partsService.getPartsByCategory(categoryId);
+  }
+
+  @Get('uploads/:imageName')
+  async getImage(@Param('imageName') imageName: string, @Res() res: Response) {
+    // Service orqali rasmni olish
+    const imagePath = this.partsService.getImagePath(imageName);
+
+    if (imagePath) {
+      return res.sendFile(imagePath);
+    } else {
+      return res.status(404).send('Rasm topilmadi');
+    }
   }
 
   @Get('parts/categories')

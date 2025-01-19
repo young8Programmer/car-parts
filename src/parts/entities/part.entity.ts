@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Category } from 'src/categories/entities/category.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
 
 @Entity('products')
 export class Part {
@@ -29,8 +30,8 @@ export class Part {
   @Column({ default: true })
   inStock: boolean;
 
-  @Column({ nullable: true })
-  categories: string; 
+  @ManyToMany(() => Category, (category) => category.parts)
+  categories: Category[];
 
    @Column('simple-array', { nullable: true })
    images: string[]; 
