@@ -15,11 +15,7 @@ import { join } from 'path';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'postgres.railway.app',  // Railway host
-      port: 5432,                   // Default PostgreSQL port
-      username: 'postgres',         // Railway username
-      password: 'ErdIsXOcisObQVfqzSOJMyQdioQhrHZn',  // Railway password
-      database: 'railway',          // Database name
+      url: 'postgresql://postgres:nUqFvdrnZfEGNrDdrzzrvvDWxWJkHHZt@junction.proxy.rlwy.net:33398/railway',
       entities: [Part, User],
       synchronize: true,
       ssl: {
