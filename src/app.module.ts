@@ -15,7 +15,7 @@ import { join } from 'path';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      url: 'postgresql://postgres:nUqFvdrnZfEGNrDdrzzrvvDWxWJkHHZt@junction.proxy.rlwy.net:33398/railway',
+      url: 'postgresql://postgres:nUqFvdrnZfEGNrDdrzzrvvDWxWJkHHZt@postgres.railway.internal:5432/railway',
       entities: [Part, User],
       synchronize: true,
       ssl: {
