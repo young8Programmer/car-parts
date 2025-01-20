@@ -32,9 +32,10 @@ export class UpdatePartDto {
   @IsOptional()
   inStock?: boolean; 
 
-  @IsString()
+  @IsArray()
   @IsOptional()
-  categories?: string;
+  categories?: number[];  // Category id array
+
 
   @IsArray()
   @IsOptional()
