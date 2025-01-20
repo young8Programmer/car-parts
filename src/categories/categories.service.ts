@@ -57,27 +57,27 @@ export class CategoryService {
     return category;
   }
 
-  async update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    const category = await this.categoryRepository.findOne({where: {id}});
+  async updateCategory(id: number, updateCategoryDto: UpdateCategoryDto): Promise<Category> {
+    const category = await this.categoryRepository.findOne({ where: { id } });
     if (!category) {
       throw new NotFoundException(`ID ${id} ga ega kategoriya topilmadi!`);
     }
-
-    try {
-      const { name, description, imageUrl, parts } = updateCategoryDto;
-      category.name = name;
-      category.description = description;
-      category.imageUrl = imageUrl;
-      category.parts = parts ? await this.partRepository.findByIds(parts) : category.parts;
-
-      await this.categoryRepository.save(category);
-      return { message: 'Kategoriya muvaffaqiyatli yangilandi!', category };
-    } catch (error) {
-      console.error('Kategoriya yangilashda xatolik:', error);
-      throw new InternalServerErrorException('Kategoriya yangilanishida xatolik yuz berdi!');
+  
+    // Agar yangi nom berilgan bo'lsa, mavjudligini tekshirish
+    if (updateCategoryDto.name) {
+      const existingCategory = await this.categoryRepository.findOne({ where: { name: updateCategoryDto.name } });
+      if (existingCategory && existingCategory.id !== id) {
+        throw new BadRequestException(`Kategoriya nomi ${updateCategoryDto.name} allaqachon mavjud`);
+      }
     }
+  
+    // DTO qiymatlarini mavjud obyektga biriktirish
+    Object.assign(category, updateCategoryDto);
+  
+    // Yangilangan obyektni saqlash
+    return this.categoryRepository.save(category);
   }
-
+  
   async remove(id: number) {
     const category = await this.categoryRepository.findOne({where: {id}});
     if (!category) {
