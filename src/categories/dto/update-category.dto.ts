@@ -2,7 +2,7 @@ import { IsString, IsOptional, IsArray, IsNotEmpty, IsUrl } from 'class-validato
 
 export class UpdateCategoryDto {
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   name?: string;
 
   @IsString()
