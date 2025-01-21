@@ -75,13 +75,12 @@ async uploadFile(@UploadedFile() file: Express.Multer.File) {
  
    @Get('part/search')
    async search(
-     @Query('name') name: string,
      @Query('oem') oem: any, 
      @Query('trt') trt: any, 
      @Query('brand') brand: any, 
      @Query('model') model: any
    ) {
-     return await this.partsService.search(name, oem, trt, brand, model);
+     return await this.partsService.search(oem, trt, brand, model);
    }
 
    @Get('part/category/:categoryId')

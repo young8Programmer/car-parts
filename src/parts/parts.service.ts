@@ -172,10 +172,9 @@ export class PartsService {
     return models.map(model => model.model);
   }
 
-  async search(name: string, oem: string, trt: string, brand: string, model: string) {
+  async search(oem: string, trt: string, brand: string, model: string) {
     const queryBuilder = this.partsRepository.createQueryBuilder('part');
 
-    if (name) queryBuilder.andWhere('LOWER(part.name) LIKE LOWER(:name)', { name: `%${name.toLowerCase()}%` });
     if (oem) queryBuilder.andWhere('LOWER(part.oem) = LOWER(:oem)', { oem: oem.toLowerCase() });
     if (trt) queryBuilder.andWhere('LOWER(part.trtCode) = LOWER(:trt)', { trt: trt.toLowerCase() });
     if (brand) queryBuilder.andWhere('LOWER(part.brand) = LOWER(:brand)', { brand: brand.toLowerCase() });
