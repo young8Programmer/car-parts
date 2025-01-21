@@ -19,6 +19,9 @@ import { Category } from './categories/entities/category.entity';
       type: 'postgres',
       url: process.env.DATABASE_URL || "postgresql://postgresql_9eoz_user:Xp2A37RfR5ypHiWckZY6GsOohzndOCnm@dpg-cu6iq1dsvqrc738j18c0-a.oregon-postgres.render.com/postgresql_9eoz",
       entities: [Part, User, Category],
+      ssl: {
+        rejectUnauthorized: false, // SSL sertifikatni tekshirmaslik uchun
+      },
       synchronize: true,
     }),
     PartsModule,
