@@ -90,15 +90,16 @@ export class PartsService {
   async update(id: number, updatePartDto: UpdatePartDto) {
     const part = await this.partsRepository.findOne({
       where: { id },
-      relations: ['categories'], // Hozirgi kategoriyalarni olish
+      relations: ['categories'],
     });
   
     if (!part) {
       throw new NotFoundException(`ID ${id} ga ega mahsulot topilmadi!`);
     }
   
+    // Kategoriyalarni yangilash
     if (updatePartDto.categories) {
-      // Yangi kategoriyalarni olish
+      // Yangi kategoriyalarni ID orqali topish
       const newCategories = await this.categoriesRepository.find({
         where: { id: In(updatePartDto.categories) },
       });
@@ -107,23 +108,20 @@ export class PartsService {
         throw new NotFoundException(`Berilgan ID'lar bo'yicha kategoriyalar topilmadi.`);
       }
   
-      // Eski kategoriyalarni yangilash
-      const oldCategories = part.categories;
-  
-      // Eski kategoriyalardan aloqani olib tashlash
-      for (const category of oldCategories) {
+      // Eski kategoriyalarni yangilash va partni chiqarish
+      for (const category of part.categories) {
         category.parts = category.parts.filter((p) => p.id !== part.id);
+        await this.categoriesRepository.save(category);
       }
   
-      // Yangi kategoriyalarni qo'shish
+      // Yangi kategoriyalarni create qilib qo'yish
       for (const category of newCategories) {
         if (!category.parts.some((p) => p.id === part.id)) {
           category.parts.push(part);
         }
+        // Yangi kategoriyalarni saqlash
+        await this.categoriesRepository.save(category);
       }
-  
-      // Yangi va eski kategoriyalarni saqlash
-      await this.categoriesRepository.save(newCategories);
   
       // Partga yangi kategoriyalarni qo'shish
       part.categories = newCategories;
@@ -132,10 +130,9 @@ export class PartsService {
     // Boshqa maydonlarni yangilash
     Object.assign(part, updatePartDto);
   
-    // Partni saqlash
+    // Yangilangan partni saqlash
     return await this.partsRepository.save(part);
   }
-  
   
   async remove(id: number) {
     const existingPart = await this.partsRepository.findOne({ where: { id } });
