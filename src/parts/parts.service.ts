@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, BadRequestException, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Part } from './entities/part.entity';
 import { CreatePartDto } from './dto/create-part.dto';
 import { UpdatePartDto } from './dto/update-part.dto';
@@ -90,7 +90,7 @@ export class PartsService {
   async update(id: number, updatePartDto: UpdatePartDto) {
     const part = await this.partsRepository.findOne({
       where: { id },
-      relations: ['categories'],
+      relations: ['categories'], // Mavjud kategoriyalarni olish
     });
   
     if (!part) {
@@ -100,39 +100,38 @@ export class PartsService {
     // Kategoriyalarni yangilash
     if (updatePartDto.categories) {
       // Yangi kategoriyalarni ID orqali topish
-      const newCategories = await this.categoriesRepository.find({
-        where: { id: In(updatePartDto.categories) },
-      });
+      const newCategories = await this.categoriesRepository.findByIds(updatePartDto.categories);
   
       if (!newCategories.length) {
         throw new NotFoundException(`Berilgan ID'lar bo'yicha kategoriyalar topilmadi.`);
       }
   
-      // Eski kategoriyalarni yangilash va partni chiqarish
-      for (const category of part.categories) {
-        category.parts = category.parts.filter((p) => p.id !== part.id);
-        await this.categoriesRepository.save(category);
-      }
-  
-      // Yangi kategoriyalarni create qilib qo'yish
+      // Yangi kategoriyalarni partga ulash
       for (const category of newCategories) {
-        if (!category.parts.some((p) => p.id === part.id)) {
+        if (!category.parts) {
+          category.parts = []; // Kategoriyalarning `parts` massivini yaratish
+        }
+  
+        // Agar part allaqachon kategoriya `parts` massivida bo'lmasa, qo'shish
+        if (!category.parts.some(p => p.id === part.id)) {
           category.parts.push(part);
         }
-        // Yangi kategoriyalarni saqlash
+  
+        // Categoryga `part`ni create qilish
         await this.categoriesRepository.save(category);
       }
   
-      // Partga yangi kategoriyalarni qo'shish
+      // Partni yangi kategoriyalarga ulash
       part.categories = newCategories;
     }
   
     // Boshqa maydonlarni yangilash
     Object.assign(part, updatePartDto);
   
-    // Yangilangan partni saqlash
+    // Partni saqlash
     return await this.partsRepository.save(part);
   }
+  
   
   async remove(id: number) {
     const existingPart = await this.partsRepository.findOne({ where: { id } });
