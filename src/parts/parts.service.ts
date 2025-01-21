@@ -88,7 +88,7 @@ export class PartsService {
   }
 
   async update(id: number, updatePartDto: UpdatePartDto) {
-    // Partni olish, uni kategoriyalar bilan birga yuklash
+    // Partni olish
     const part = await this.partsRepository.findOne({
       where: { id },
       relations: ['categories'], // Kategoriyalarni yuklash
@@ -98,37 +98,30 @@ export class PartsService {
       throw new NotFoundException(`ID ${id} ga ega mahsulot topilmadi!`);
     }
   
+    // Update DTO'dagi har bir maydonni tekshirib, yangilash
+    part.sku = updatePartDto.sku || part.sku;
+    part.name = updatePartDto.name || part.name;
+    part.visibilityInCatalog = updatePartDto.visibilityInCatalog || part.visibilityInCatalog;
+    part.language = updatePartDto.language || part.language;
+    part.translationGroup = updatePartDto.translationGroup || part.translationGroup;
+    part.shortDescription = updatePartDto.shortDescription || part.shortDescription;
+    part.description = updatePartDto.description || part.description;
+    part.inStock = updatePartDto.inStock ?? part.inStock;
+    part.images = updatePartDto.images || part.images;
+    part.carName = updatePartDto.carName || part.carName;
+    part.model = updatePartDto.model || part.model;
+    part.oem = updatePartDto.oem || part.oem;
+    part.years = updatePartDto.years || part.years;
+    part.price = updatePartDto.price ?? part.price;
+    part.imageUrl = updatePartDto.imageUrl || part.imageUrl;
+    part.trtCode = updatePartDto.trtCode || part.trtCode;
+    part.brand = updatePartDto.brand || part.brand;
+  
     // Kategoriyalarni yangilash
     if (updatePartDto.categories) {
-      // Yangi kategoriyalarni ID orqali topish
-      const newCategories = await this.categoriesRepository.findByIds(updatePartDto.categories);
-  
-      if (!newCategories.length) {
-        throw new NotFoundException(`Berilgan ID'lar bo'yicha kategoriyalar topilmadi.`);
-      }
-  
-      // Kategoriyalarni part bilan ulash
-      part.categories = newCategories;
-  
-      // Kategoriyalarni tekshirish va yangilash
-      for (const category of newCategories) {
-        // Agar kategoriya `parts` massivida part bo'lmasa, qo'shish
-        if (!category.parts) {
-          category.parts = []; // Agar `category.parts` mavjud bo'lmasa, uni bo'sh massivga o'rnatish
-        }
-  
-        // Agar part allaqachon kategoriya `parts` massivida bo'lmasa, qo'shish
-        if (!category.parts.some(p => p.id === part.id)) {
-          category.parts.push(part); // `part`ni `category`ga qo'shish
-        }
-      }
-  
-      // Kategoriyalarni saqlash
-      await this.categoriesRepository.save(newCategories);
+      // Yangi kategoriyalarni ID orqali topish va ulash
+      part.categories = await this.categoriesRepository.findByIds(updatePartDto.categories);
     }
-  
-    // Boshqa maydonlarni yangilash
-    Object.assign(part, updatePartDto);
   
     // Partni saqlash
     return await this.partsRepository.save(part);
