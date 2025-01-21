@@ -109,6 +109,11 @@ export class PartsService {
   
       // Yangi kategoriyalarni partga ulash
       for (const category of newCategories) {
+        // Kategoriya `parts` massiviga ega bo'lishi kerak
+        if (!category.parts) {
+          category.parts = []; // Agar `category.parts` mavjud bo'lmasa, uni bo'sh massivga o'rnatish
+        }
+  
         // Agar part allaqachon kategoriya `parts` massivida bo'lmasa, qo'shish
         if (!category.parts.some(p => p.id === part.id)) {
           category.parts.push(part); // `part`ni `category`ga qo'shish
