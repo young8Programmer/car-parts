@@ -106,8 +106,8 @@ async uploadFile(@UploadedFile() file: Express.Multer.File) {
     return await this.partsService.getCategories();
   }
 
-  @Get('search/name')
-  async searchByName(@Query('name') name: string) {
+  @Get()
+  async searchByName(@Query('value') name: string) {
     return await this.partsService.searchByName(name);
   }
 
