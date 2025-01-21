@@ -90,7 +90,7 @@ export class PartsService {
   async update(id: number, updatePartDto: UpdatePartDto) {
     const part = await this.partsRepository.findOne({
       where: { id },
-      relations: ['categories'], // Mavjud aloqalarni olish
+      relations: ['categories'], // Hozirgi kategoriyalarni olish
     });
   
     if (!part) {
@@ -101,33 +101,32 @@ export class PartsService {
       // Yangi kategoriyalarni olish
       const newCategories = await this.categoriesRepository.find({
         where: { id: In(updatePartDto.categories) },
-        relations: ['parts'], // Kategoriyalarning avvalgi aloqalarini olish
       });
   
       if (!newCategories.length) {
         throw new NotFoundException(`Berilgan ID'lar bo'yicha kategoriyalar topilmadi.`);
       }
   
-      // Eski kategoriyalardan aloqani olib tashlash
-      for (const category of part.categories) {
+      // Eski kategoriyalar bilan bog'lanishni olib tashlash
+      part.categories.forEach((category) => {
         category.parts = category.parts.filter((p) => p.id !== part.id);
-      }
+      });
   
-      // Yangi kategoriyalarga partni qo‘shish
-      for (const category of newCategories) {
+      // Yangi kategoriyalarga bog'lanish qo'shish
+      newCategories.forEach((category) => {
         if (!category.parts.some((p) => p.id === part.id)) {
           category.parts.push(part);
         }
-      }
+      });
   
-      // Yangi va eski kategoriyalarni saqlash
-      await this.categoriesRepository.save([...part.categories, ...newCategories]);
+      // Yangi kategoriyalarni saqlash (shu jumladan, part bilan bog'lanish)
+      await this.categoriesRepository.save(newCategories);
   
       // Partni yangi kategoriyalarga ulang
       part.categories = newCategories;
     }
   
-    // Boshqa maydonlarni yangilash
+    // Part obyekti ichidagi boshqa maydonlarni yangilash
     Object.assign(part, updatePartDto);
   
     // Partni saqlash
