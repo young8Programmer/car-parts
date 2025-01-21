@@ -189,8 +189,10 @@ export class PartsService {
     if (categories.length === 0) {
       throw new Error('No categories found!');
     }
-    return categories;
+    return categories.sort((a, b) => a.id - b.id);
   }
+  
+  
 
   async searchByName(name: string) {
     const parts = await this.partsRepository
