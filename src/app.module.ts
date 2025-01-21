@@ -17,11 +17,7 @@ import { Category } from './categories/entities/category.entity';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'dpg-cu6iq1dsvqrc738j18c0-a',
-      port: 5432,
-      database: 'postgresql_9eoz',
-      username: 'postgresql_9eoz_user',
-      password: 'Xp2A37RfR5ypHiWckZY6GsOohzndOCnm',
+      url: "postgresql://postgresql_9eoz_user:Xp2A37RfR5ypHiWckZY6GsOohzndOCnm@dpg-cu6iq1dsvqrc738j18c0-a.oregon-postgres.render.com/postgresql_9eoz",
       entities: [Part, User, Category],
       synchronize: true,
     }),
