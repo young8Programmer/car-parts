@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, BadRequestException, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Part } from './entities/part.entity';
 import { CreatePartDto } from './dto/create-part.dto';
 import { UpdatePartDto } from './dto/update-part.dto';
@@ -99,35 +99,37 @@ export class PartsService {
   
     // Kategoriyalarni yangilash
     if (updatePartDto.categories) {
-      // Find new categories by their IDs
-      const newCategories = await this.categoriesRepository.findByIds(updatePartDto.categories);
+      // Yangi kategoriyalarni ID orqali topish
+      const newCategories = await this.categoriesRepository.find({
+        where: { id: In(updatePartDto.categories) },
+        relations: ['parts'],
+      });
   
-      // Add the part to the categories
-      for (const category of newCategories) {
-        if (!category.parts) {
-          category.parts = []; // Initialize the parts array if it's not already initialized
-        }
-        
-        // Add the part to the category's parts array if it's not already present
-        if (!category.parts.some(p => p.id === part.id)) {
-          category.parts.push(part);
-        }
-  
-        // Save the updated category back to the database
-        await this.categoriesRepository.save(category);
+      // Eski kategoriyalarni yangilash
+      for (const category of part.categories) {
+        category.parts = category.parts.filter((p) => p.id !== part.id);
       }
   
-      // Update the part's categories (set new categories)
+      // Yangi kategoriyalarni yangilash
+      for (const category of newCategories) {
+        if (!category.parts.some((p) => p.id === part.id)) {
+          category.parts.push(part);
+        }
+      }
+  
+      // Barcha kategoriyalarni saqlash
+      await this.categoriesRepository.save([...part.categories, ...newCategories]);
+  
+      // Partni yangi kategoriyalarga ulang
       part.categories = newCategories;
     }
   
-    // Apply other updates to the part (if any)
+    // Boshqa maydonlarni yangilash
     Object.assign(part, updatePartDto);
   
-    // Save the updated part to the database
+    // Yangilangan partni saqlash
     return await this.partsRepository.save(part);
   }
-  
   
   async remove(id: number) {
     const existingPart = await this.partsRepository.findOne({ where: { id } });
