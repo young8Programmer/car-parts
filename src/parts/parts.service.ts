@@ -99,19 +99,34 @@ export class PartsService {
   
     if (updatePartDto.categories) {
       // Yangi kategoriyalarni olish
-      const newCategories = await this.categoriesRepository.findBy({
-        id: In(updatePartDto.categories),
+      const newCategories = await this.categoriesRepository.find({
+        where: { id: In(updatePartDto.categories) },
       });
   
       if (!newCategories.length) {
         throw new NotFoundException(`Berilgan ID'lar bo'yicha kategoriyalar topilmadi.`);
       }
   
-      // Partga yangi kategoriyalarni o'rnatish
-      part.categories = newCategories;
+      // Eski kategoriyalarni yangilash
+      const oldCategories = part.categories;
   
-      // Har bir kategoriya ichida `part`ni saqlash
+      // Eski kategoriyalardan aloqani olib tashlash
+      for (const category of oldCategories) {
+        category.parts = category.parts.filter((p) => p.id !== part.id);
+      }
+  
+      // Yangi kategoriyalarni qo'shish
+      for (const category of newCategories) {
+        if (!category.parts.some((p) => p.id === part.id)) {
+          category.parts.push(part);
+        }
+      }
+  
+      // Yangi va eski kategoriyalarni saqlash
       await this.categoriesRepository.save(newCategories);
+  
+      // Partga yangi kategoriyalarni qo'shish
+      part.categories = newCategories;
     }
   
     // Boshqa maydonlarni yangilash
