@@ -90,7 +90,7 @@ export class PartsService {
   async update(id: number, updatePartDto: UpdatePartDto) {
     const part = await this.partsRepository.findOne({
       where: { id },
-      relations: ['categories'], // Include categories in the query to fetch the part with its categories
+      relations: ['categories'],
     });
   
     if (!part) {
@@ -102,11 +102,12 @@ export class PartsService {
       // Find new categories by their IDs
       const newCategories = await this.categoriesRepository.findByIds(updatePartDto.categories);
   
-      // If categories exist and the part is not already associated with them, add it to the categories
+      // Add the part to the categories
       for (const category of newCategories) {
         if (!category.parts) {
           category.parts = []; // Initialize the parts array if it's not already initialized
         }
+        
         // Add the part to the category's parts array if it's not already present
         if (!category.parts.some(p => p.id === part.id)) {
           category.parts.push(part);
@@ -116,16 +117,17 @@ export class PartsService {
         await this.categoriesRepository.save(category);
       }
   
-      // Update the part's categories
+      // Update the part's categories (set new categories)
       part.categories = newCategories;
     }
   
-    // Apply updates to the part (other fields in updatePartDto)
+    // Apply other updates to the part (if any)
     Object.assign(part, updatePartDto);
   
-    // Save the updated part
+    // Save the updated part to the database
     return await this.partsRepository.save(part);
   }
+  
   
   async remove(id: number) {
     const existingPart = await this.partsRepository.findOne({ where: { id } });
