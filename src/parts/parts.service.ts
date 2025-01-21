@@ -88,25 +88,44 @@ export class PartsService {
   }
 
   async update(id: number, updatePartDto: any) {
-    const existingPart = await this.partsRepository.findOne({ where: { id }, relations: ['categories'] });
+    // Mahsulotni ID bo'yicha topish
+    const existingPart = await this.partsRepository.findOne({
+      where: { id },
+      relations: ['categories'],
+    });
     if (!existingPart) {
       throw new NotFoundException(`ID ${id} ga ega mahsulot topilmadi!`);
     }
   
-    // Kategoriyalarni yangilash (agar berilgan bo'lsa)
+    // Agar yangilash uchun kategoriyalar berilgan bo'lsa
     if (updatePartDto.categories) {
-      const categories = await this.categoriesRepository.findByIds(updatePartDto.categories.map(category => category.id));
-      updatePartDto.categories = categories;
+      const categoryIds = updatePartDto.categories.map((category) => category.id);
+  
+      // IDlarga asoslangan holda kategoriyalarni topish
+      const categories = await this.categoriesRepository.findByIds(categoryIds);
+  
+      if (categories.length !== categoryIds.length) {
+        throw new NotFoundException(
+          "Ba'zi kategoriyalar topilmadi. Iltimos, to‘g‘ri ID larni kiriting!"
+        );
+      }
+  
+      // Topilgan kategoriyalarni yangilash uchun o'rnatish
+      existingPart.categories = categories;
     }
   
-    // DTO qiymatlarini obyektga biriktirish
+    // DTOning boshqa qiymatlarini mahsulot obyektiga qo'shish
     Object.assign(existingPart, updatePartDto);
   
-    // Yangilangan obyektni saqlash
+    // Yangilangan mahsulotni saqlash
     const updatedPart = await this.partsRepository.save(existingPart);
   
-    return { message: `Mahsulot muvaffaqiyatli yangilandi!`, part: updatedPart };
+    return {
+      message: `Mahsulot muvaffaqiyatli yangilandi!`,
+      part: updatedPart,
+    };
   }
+  
   
 
   async remove(id: number) {
