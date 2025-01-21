@@ -93,52 +93,49 @@ export class PartsService {
       where: { id },
       relations: ['categories'], // Kategoriyalarni yuklash
     });
-  
+
     if (!part) {
       throw new NotFoundException(`ID ${id} ga ega mahsulot topilmadi!`);
     }
-  
+
     // Kategoriyalarni yangilash
     if (updatePartDto.categories) {
       // Yangi kategoriyalarni ID orqali topish
       const newCategories = await this.categoriesRepository.findByIds(updatePartDto.categories);
-  
+
       if (!newCategories.length) {
         throw new NotFoundException(`Berilgan ID'lar bo'yicha kategoriyalar topilmadi.`);
       }
-  
-      // Yangi kategoriyalarni partga ulash
+
+      // Kategoriyalarni tekshirish va yangilash
       for (const category of newCategories) {
         // Kategoriya `parts` massiviga ega bo'lishi kerak
         if (!category.parts) {
           category.parts = []; // Agar `category.parts` mavjud bo'lmasa, uni bo'sh massivga o'rnatish
         }
-  
+
         // Agar part allaqachon kategoriya `parts` massivida bo'lmasa, qo'shish
         if (!category.parts.some(p => p.id === part.id)) {
           category.parts.push(part); // `part`ni `category`ga qo'shish
+        } else {
+          // Agar `part` allaqachon kategoriya `parts` massivida bo'lsa, uni qayta qo'shmaslik
+          throw new NotFoundException(`ID ${part.id} bo'lgan mahsulot allaqachon kategoriya "${category.name}"ga qo'shilgan.`);
         }
-  
+
         // Categoryni yangilash
-        Object.assign(category, {
-          parts: category.parts, // Kategoriya parts ni yangilash
-        });
-  
-        // Kategoriyani saqlash
         await this.categoriesRepository.save(category);
       }
-  
+
       // Partni yangi kategoriyalarga ulash
       part.categories = newCategories;
     }
-  
+
     // Boshqa maydonlarni yangilash
     Object.assign(part, updatePartDto);
-  
+
     // Partni saqlash
     return await this.partsRepository.save(part);
   }
-  
   
   async remove(id: number) {
     const existingPart = await this.partsRepository.findOne({ where: { id } });
