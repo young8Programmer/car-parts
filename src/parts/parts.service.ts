@@ -87,27 +87,29 @@ export class PartsService {
     return part;
   }
 
-  async update(id: number, updatePartDto: any) {
+  async update(id: number, updatePartDto: UpdatePartDto) {
     const part = await this.partsRepository.findOne({
       where: { id },
-      relations: ['categories'], // Avvalgi bog‘langan kategoriyalarni olish uchun
+      relations: ['categories'],  // Kategoriyalarni o'z ichiga olgan holda izlash
     });
   
     if (!part) {
-      throw new Error('Part not found');
+      throw new NotFoundException(`ID ${id} ga ega mahsulot topilmadi!`);
     }
   
-    // Yangi kategoriyalarni topish
-    const newCategories = await this.categoriesRepository.findByIds(updatePartDto.categoryIds);
+    // Kategoriyalarni yangilash
+    if (updatePartDto.categories) {
+      const newCategories = await this.categoriesRepository.findByIds(updatePartDto.categories);
+      part.categories = newCategories;
+    }
   
-    // Yangi kategoriyalarni bog‘lash
-    part.categories = newCategories;
+    // Update qilish uchun UpdatePartDto'ni qo'llash
+    Object.assign(part, updatePartDto);
   
-    // Yangilangan mahsulotni saqlash
+    // Yangilangan partni saqlash
     return await this.partsRepository.save(part);
   }
   
-
   async remove(id: number) {
     const existingPart = await this.partsRepository.findOne({ where: { id } });
     if (!existingPart) {
