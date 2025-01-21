@@ -107,12 +107,12 @@ export class PartsService {
         throw new NotFoundException(`Berilgan ID'lar bo'yicha kategoriyalar topilmadi.`);
       }
   
-      // Partni yangilash va yangi kategoriyalarni ulash
+      // Kategoriyalarni part bilan ulash
       part.categories = newCategories;
   
       // Kategoriyalarni tekshirish va yangilash
       for (const category of newCategories) {
-        // Kategoriya `parts` massiviga ega bo'lishi kerak
+        // Agar kategoriya `parts` massivida part bo'lmasa, qo'shish
         if (!category.parts) {
           category.parts = []; // Agar `category.parts` mavjud bo'lmasa, uni bo'sh massivga o'rnatish
         }
