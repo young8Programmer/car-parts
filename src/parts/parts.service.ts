@@ -119,6 +119,13 @@ export class PartsService {
   
         // Categoryga `part`ni create qilish
         await this.categoriesRepository.save(category);
+  
+        // Agar categoryga part yangi qo'shilgan bo'lsa, partni categoryga qo'shish uchun create
+        const partCategory = this.categoriesRepository.create({
+          id: category.id,
+          parts: [part], // Yangi partni kategoriya bilan create qilish
+        });
+        await this.categoriesRepository.save(partCategory);
       }
   
       // Partni yangi kategoriyalarga ulash
