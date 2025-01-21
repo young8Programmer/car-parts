@@ -88,9 +88,10 @@ export class PartsService {
   }
 
   async update(id: number, updatePartDto: UpdatePartDto) {
+    // Partni olish, uni kategoriyalar bilan birga yuklash
     const part = await this.partsRepository.findOne({
       where: { id },
-      relations: ['categories'], // Mavjud kategoriyalarni olish
+      relations: ['categories'], // Kategoriyalarni yuklash
     });
   
     if (!part) {
@@ -108,24 +109,18 @@ export class PartsService {
   
       // Yangi kategoriyalarni partga ulash
       for (const category of newCategories) {
-        if (!category.parts) {
-          category.parts = []; // Kategoriyalarning `parts` massivini yaratish
-        }
-  
         // Agar part allaqachon kategoriya `parts` massivida bo'lmasa, qo'shish
         if (!category.parts.some(p => p.id === part.id)) {
-          category.parts.push(part);
+          category.parts.push(part); // `part`ni `category`ga qo'shish
         }
   
-        // Categoryga `part`ni create qilish
-        await this.categoriesRepository.save(category);
-  
-        // Agar categoryga part yangi qo'shilgan bo'lsa, partni categoryga qo'shish uchun create
-        const partCategory = this.categoriesRepository.create({
-          id: category.id,
-          parts: [part], // Yangi partni kategoriya bilan create qilish
+        // Categoryni yangilash
+        Object.assign(category, {
+          parts: category.parts, // Kategoriya parts ni yangilash
         });
-        await this.categoriesRepository.save(partCategory);
+  
+        // Kategoriyani saqlash
+        await this.categoriesRepository.save(category);
       }
   
       // Partni yangi kategoriyalarga ulash
