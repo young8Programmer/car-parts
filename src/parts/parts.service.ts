@@ -88,17 +88,15 @@ export class PartsService {
   }
 
   async update(id: number, updatePartDto: UpdatePartDto) {
-    // Partni olish
     const part = await this.partsRepository.findOne({
       where: { id },
-      relations: ['categories'], // Kategoriyalarni yuklash
+      relations: ['categories'],
     });
   
     if (!part) {
       throw new NotFoundException(`ID ${id} ga ega mahsulot topilmadi!`);
     }
-  
-    // Update DTO'dagi har bir maydonni tekshirib, yangilash
+
     part.sku = updatePartDto.sku || part.sku;
     part.name = updatePartDto.name || part.name;
     part.visibilityInCatalog = updatePartDto.visibilityInCatalog || part.visibilityInCatalog;
@@ -117,13 +115,10 @@ export class PartsService {
     part.trtCode = updatePartDto.trtCode || part.trtCode;
     part.brand = updatePartDto.brand || part.brand;
   
-    // Kategoriyalarni yangilash
     if (updatePartDto.categories) {
-      // Yangi kategoriyalarni ID orqali topish va ulash
       part.categories = await this.categoriesRepository.findByIds(updatePartDto.categories);
     }
   
-    // Partni saqlash
     return await this.partsRepository.save(part);
   }
   
