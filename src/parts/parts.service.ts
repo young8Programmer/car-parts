@@ -34,11 +34,13 @@ export class PartsService {
   }
 
   async create(createPartDto: CreatePartDto) {
+    // Nomi bo'yicha tekshirish
     const existingPart = await this.partsRepository.findOne({
-      where: { sku: createPartDto.sku },
+      where: { name: createPartDto.name },  // SKU emas, NAME tekshiriladi
     });
+    
     if (existingPart) {
-      throw new BadRequestException(`"${createPartDto.sku}" SKU allaqachon ro'yxatdan o'tgan!`);
+      throw new BadRequestException(`"${createPartDto.name}" nomli mahsulot allaqachon mavjud!`);
     }
   
     try {
@@ -63,14 +65,12 @@ export class PartsService {
     } catch (error) {
       console.error('Mahsulot qo‘shishda xatolik:', error);
       if (error instanceof NotFoundException) {
-        // Foydalanuvchiga aniq xabar yuborish
         throw new NotFoundException('Kategoriyalar mavjud emas yoki topilmadi. Iltimos, to\'g\'ri kategoriyalarni kiriting.');
       }
       throw new InternalServerErrorException('Yangi mahsulotni qo‘shishda xatolik yuz berdi!');
     }
   }
   
-
   async findAll() {
     const parts = await this.partsRepository.find({ relations: ['categories'] });
     if (!parts.length) {
