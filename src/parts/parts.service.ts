@@ -133,10 +133,10 @@ export class PartsService {
 
   async getPartsByCategory(categoryId: number) {
     const queryBuilder = this.categoriesRepository.createQueryBuilder('category');
-    
-    // Kategoriyani ID bo'yicha topish
+  
+    // Kategoriyani ID bo'yicha topish va unga tegishli part-larni olib kelish
     const category = await queryBuilder
-      .leftJoinAndSelect('category.parts', 'part')  // Kategoriyaga tegishli mahsulotlarni olib kelish
+      .leftJoinAndSelect('category.parts', 'part')  // Kategoriyaga tegishli part-larni olish
       .where('category.id = :categoryId', { categoryId })
       .getOne();
   
@@ -144,8 +144,11 @@ export class PartsService {
       throw new NotFoundException(`Bunday kategoriya topilmadi!`);
     }
   
-    // Agar kategoriya mavjud bo'lsa, mahsulotlarni qaytarish
-    return category.parts;  // Categoryga tegishli bo'lgan barcha mahsulotlar
+    // Kategoriya ma'lumotlari va part-larni qaytarish
+    return {
+      category,  // Kategoriya haqida to'liq ma'lumot
+      parts: category.parts,  // Kategoriya ichidagi barcha part-lar
+    };
   }
   
 
