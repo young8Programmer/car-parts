@@ -34,13 +34,13 @@ export class PartsService {
   }
 
   async create(createPartDto: CreatePartDto) {
-    // Nomi bo'yicha tekshirish
+    // trtCode bo'yicha tekshirish
     const existingPart = await this.partsRepository.findOne({
-      where: { name: createPartDto.name },  // SKU emas, NAME tekshiriladi
+      where: { trtCode: createPartDto.trtCode },  // `name` emas, `trtCode` tekshiriladi
     });
-    
+  
     if (existingPart) {
-      throw new BadRequestException(`"${createPartDto.name}" nomli mahsulot allaqachon mavjud!`);
+      throw new BadRequestException(`"${createPartDto.trtCode}" trtCode allaqachon mavjud!`);
     }
   
     try {
