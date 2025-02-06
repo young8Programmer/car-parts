@@ -70,15 +70,22 @@ export class PartsService {
     }
   }
   
-  
+
   async findAll() {
-    const parts = await this.partsRepository.find({ relations: ['categories'] });
+    const parts = await this.partsRepository.find({
+      relations: ['categories'],
+      order: {
+        id: 'ASC',
+      },
+    });
+    
     if (!parts.length) {
       throw new NotFoundException('Hozircha mahsulotlar mavjud emas!');
     }
+  
     return parts;
   }
-
+  
   async findOne(id: number) {
     const part = await this.partsRepository.findOne({ where: { id }, relations: ['categories'] });
     if (!part) {
