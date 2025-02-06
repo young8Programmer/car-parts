@@ -39,8 +39,8 @@ export class Part {
   @Column({ nullable: true })
   carName: string;
 
-  @Column({ nullable: true })
-  model: string; 
+  @Column("simple-array",{ nullable: true })
+  model: string[]; 
 
   @Column("simple-array",{ nullable: true })
   oem: string[];
@@ -57,6 +57,6 @@ export class Part {
   @Column({ nullable: true })
   trtCode: string;
 
-  @Column("simple-array",{ nullable: true })
-  brand: string[];
+  @Column({ nullable: true })
+  brand: string;
 }

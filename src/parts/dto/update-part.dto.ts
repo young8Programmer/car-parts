@@ -45,9 +45,9 @@ export class UpdatePartDto {
   @IsOptional()
   carName?: string;
 
-  @IsString()
+  @IsArray()
   @IsOptional()
-  model?: string; 
+  model?: string[]; 
 
   @IsArray()
   @IsOptional()
@@ -69,7 +69,7 @@ export class UpdatePartDto {
   @IsOptional()
   trtCode?: string;
 
-  @IsArray()
+  @IsString()
   @IsOptional()
-  brand?: string[];
+  brand?: string;
 }

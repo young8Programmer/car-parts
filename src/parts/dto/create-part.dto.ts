@@ -46,9 +46,9 @@ export class CreatePartDto {
   @IsOptional()
   carName?: string;
 
-  @IsString()
+  @IsArray()
   @IsOptional()
-  model?: string;
+  model?: string[];
 
   @IsArray()
   @IsOptional()
@@ -70,7 +70,7 @@ export class CreatePartDto {
   @IsOptional()
   trtCode?: string;
 
-  @IsArray()
+  @IsString()
   @IsOptional()
-  brand?: string[];
+  brand?: string;
 }

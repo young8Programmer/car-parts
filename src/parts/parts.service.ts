@@ -36,7 +36,7 @@ export class PartsService {
   async create(createPartDto: CreatePartDto) {
     // trtCode bo'yicha tekshirish
     const existingPart = await this.partsRepository.findOne({
-      where: { trtCode: createPartDto.trtCode },  // `name` emas, `trtCode` tekshiriladi
+      where: { trtCode: createPartDto.trtCode },  // `trtCode` tekshiriladi
     });
   
     if (existingPart) {
@@ -54,13 +54,12 @@ export class PartsService {
         throw new NotFoundException('Bunday kategoriya mavjud emas!');
       }
   
-      // Yangi partni yaratish
+      // Yangi partni yaratish va saqlash
       const part = this.partsRepository.create({
         ...createPartDto,
         categories,
       });
   
-      // Yangi partni saqlash
       return await this.partsRepository.save(part);
     } catch (error) {
       console.error('Mahsulot qo‘shishda xatolik:', error);
@@ -70,6 +69,7 @@ export class PartsService {
       throw new InternalServerErrorException('Yangi mahsulotni qo‘shishda xatolik yuz berdi!');
     }
   }
+  
   
   async findAll() {
     const parts = await this.partsRepository.find({ relations: ['categories'] });
@@ -88,6 +88,7 @@ export class PartsService {
   }
 
   async update(id: number, updatePartDto: UpdatePartDto) {
+    // Mahsulotni ID bo'yicha topish
     const part = await this.partsRepository.findOne({
       where: { id },
       relations: ['categories'],
@@ -96,7 +97,8 @@ export class PartsService {
     if (!part) {
       throw new NotFoundException(`ID ${id} ga ega mahsulot topilmadi!`);
     }
-
+  
+    // So'rov bo'yicha o'zgartiriladigan maydonlarni yangilash
     part.sku = updatePartDto.sku || part.sku;
     part.name = updatePartDto.name || part.name;
     part.visibilityInCatalog = updatePartDto.visibilityInCatalog || part.visibilityInCatalog;
@@ -115,10 +117,12 @@ export class PartsService {
     part.trtCode = updatePartDto.trtCode || part.trtCode;
     part.brand = updatePartDto.brand || part.brand;
   
+    // Agar kategoriya IDlar berilgan bo'lsa, ularni yangilash
     if (updatePartDto.categories) {
       part.categories = await this.categoriesRepository.findByIds(updatePartDto.categories);
     }
   
+    // Yangi partni saqlash
     return await this.partsRepository.save(part);
   }
   
@@ -238,8 +242,5 @@ export class PartsService {
     } else {
       return null;
     }
-  }
-
-  
-  
+  } 
 }
