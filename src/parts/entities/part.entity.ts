@@ -42,8 +42,8 @@ export class Part {
   @Column({ nullable: true })
   model: string; 
 
-  @Column({ nullable: true })
-  oem: string; 
+  @Column("simple-array",{ nullable: true })
+  oem: string[];
 
   @Column({ nullable: true })
   years: string;
@@ -57,6 +57,6 @@ export class Part {
   @Column({ nullable: true })
   trtCode: string;
 
-  @Column({ nullable: true })
-  brand: string;
+  @Column("simple-array",{ nullable: true })
+  brand: string[];
 }

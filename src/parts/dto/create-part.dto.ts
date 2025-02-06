@@ -50,9 +50,9 @@ export class CreatePartDto {
   @IsOptional()
   model?: string;
 
-  @IsString()
+  @IsArray()
   @IsOptional()
-  oem?: string;
+  oem?: string[];
 
   @IsString()
   @IsOptional()
@@ -70,7 +70,7 @@ export class CreatePartDto {
   @IsOptional()
   trtCode?: string;
 
-  @IsString()
+  @IsArray()
   @IsOptional()
-  brand?: string;
+  brand?: string[];
 }
