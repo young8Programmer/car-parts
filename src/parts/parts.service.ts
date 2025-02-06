@@ -5,8 +5,8 @@ import { Part } from './entities/part.entity';
 import { CreatePartDto } from './dto/create-part.dto';
 import { UpdatePartDto } from './dto/update-part.dto';
 import { Category } from 'src/categories/entities/category.entity';
-import * as path from 'path';  // path modulini butunlay import qilamiz
-import * as fs from 'fs';      // fs modulini butunlay import qilamiz
+import * as path from 'path';
+import * as fs from 'fs';
 import { existsSync, mkdirSync } from 'fs';
 import { join } from 'path/posix';
 
@@ -34,33 +34,29 @@ export class PartsService {
   }
 
   async create(createPartDto: CreatePartDto) {
-    // trtCode bo'yicha tekshirish
     const existingPart = await this.partsRepository.findOne({
-      where: { trtCode: createPartDto.trtCode },  // `name` emas, `trtCode` tekshiriladi
+      where: { trtCode: createPartDto.trtCode },
     });
-  
+
     if (existingPart) {
       throw new BadRequestException(`"${createPartDto.trtCode}" trtCode allaqachon mavjud!`);
     }
-  
+
     try {
-      // Kategoriyalarni ID lariga ko'ra topish
       const categories = createPartDto.categories
         ? await this.categoriesRepository.findByIds(createPartDto.categories)
         : [];
-  
-      // Agar kategoriyalar bo'lmasa, foydalanuvchiga xatolik yuborish
+
       if (!categories || categories.length === 0) {
         throw new NotFoundException('Bunday kategoriya mavjud emas!');
       }
-  
-      // Yangi partni yaratish
+
+      // Yangi partni yaratish, brand va oem array sifatida kiritiladi
       const part = this.partsRepository.create({
         ...createPartDto,
         categories,
       });
-  
-      // Yangi partni saqlash
+
       return await this.partsRepository.save(part);
     } catch (error) {
       console.error('Mahsulot qo‘shishda xatolik:', error);
@@ -70,33 +66,18 @@ export class PartsService {
       throw new InternalServerErrorException('Yangi mahsulotni qo‘shishda xatolik yuz berdi!');
     }
   }
-  
-  async findAll() {
-    const parts = await this.partsRepository.find({ relations: ['categories'] });
-    if (!parts.length) {
-      throw new NotFoundException('Hozircha mahsulotlar mavjud emas!');
-    }
-    return parts;
-  }
-
-  async findOne(id: number) {
-    const part = await this.partsRepository.findOne({ where: { id }, relations: ['categories'] });
-    if (!part) {
-      throw new NotFoundException(`ID ${id} ga ega mahsulot topilmadi!`);
-    }
-    return part;
-  }
 
   async update(id: number, updatePartDto: UpdatePartDto) {
     const part = await this.partsRepository.findOne({
       where: { id },
       relations: ['categories'],
     });
-  
+
     if (!part) {
       throw new NotFoundException(`ID ${id} ga ega mahsulot topilmadi!`);
     }
 
+    // Brand va oem array sifatida qayta ishlanadi
     part.sku = updatePartDto.sku || part.sku;
     part.name = updatePartDto.name || part.name;
     part.visibilityInCatalog = updatePartDto.visibilityInCatalog || part.visibilityInCatalog;
@@ -105,95 +86,46 @@ export class PartsService {
     part.shortDescription = updatePartDto.shortDescription || part.shortDescription;
     part.description = updatePartDto.description || part.description;
     part.inStock = updatePartDto.inStock ?? part.inStock;
-    part.images = updatePartDto.images || part.images;
+    part.images = updatePartDto.images &&  Array.isArray(updatePartDto.images) ? updatePartDto.images : part.images;
     part.carName = updatePartDto.carName || part.carName;
     part.model = updatePartDto.model || part.model;
-    part.oem = updatePartDto.oem || part.oem;
+    part.oem = updatePartDto.oem && Array.isArray(updatePartDto.oem) ? updatePartDto.oem : part.oem;
     part.years = updatePartDto.years || part.years;
     part.price = updatePartDto.price ?? part.price;
     part.imageUrl = updatePartDto.imageUrl || part.imageUrl;
     part.trtCode = updatePartDto.trtCode || part.trtCode;
-    part.brand = updatePartDto.brand || part.brand;
-  
+    part.brand = updatePartDto.brand && Array.isArray(updatePartDto.brand) ? updatePartDto.brand : part.brand; // brand array
+
     if (updatePartDto.categories) {
       part.categories = await this.categoriesRepository.findByIds(updatePartDto.categories);
     }
-  
+
     return await this.partsRepository.save(part);
-  }
-  
-  async remove(id: number) {
-    const existingPart = await this.partsRepository.findOne({ where: { id } });
-    if (!existingPart) {
-      throw new NotFoundException(`ID ${id} ga ega mahsulot topilmadi!`);
-    }
-    await this.partsRepository.delete(id);
-    return { message: `Mahsulot muvaffaqiyatli o‘chirildi!` };
   }
 
   async getPartsByCategory(categoryId: number) {
     const queryBuilder = this.categoriesRepository.createQueryBuilder('category');
-  
-    // Kategoriyani ID bo'yicha topish va unga tegishli part-larni olib kelish
     const category = await queryBuilder
-      .leftJoinAndSelect('category.parts', 'part')  // Kategoriyaga tegishli part-larni olish
+      .leftJoinAndSelect('category.parts', 'part')
       .where('category.id = :categoryId', { categoryId })
       .getOne();
-  
+
     if (!category) {
       throw new NotFoundException(`Bunday kategoriya topilmadi!`);
     }
-  
-    // Kategoriya ma'lumotlari va part-larni qaytarish
+
     return {
-      category,  // Kategoriya haqida to'liq ma'lumot
-      parts: category.parts,  // Kategoriya ichidagi barcha part-lar
+      category,
+      parts: category.parts,
     };
   }
-  
 
-  async getAllOem() {
-    const distinctOems = await this.partsRepository
-      .createQueryBuilder('part')
-      .select('DISTINCT part.oem')
-      .getRawMany();
-
-    return distinctOems.map(oem => oem.oem);
-  }
-
-  async getOemId(oem: string) {
-    const trts = await this.partsRepository
-      .createQueryBuilder('part')
-      .select('DISTINCT part.trtCode')
-      .where('part.oem = :oem', { oem })
-      .getRawMany();
-    return trts.map(trt => trt.trtCode);
-  }
-
-  async getTrtCode(trt: string) {
-    const brands = await this.partsRepository
-      .createQueryBuilder('part')
-      .select('DISTINCT part.brand')
-      .where('part.trtCode = :trt', { trt })
-      .getRawMany();
-    return brands.map(brand => brand.brand);
-  }
-
-  async getBrand(brand: string) {
-    const models = await this.partsRepository
-      .createQueryBuilder('part')
-      .select('DISTINCT part.model')
-      .where('part.brand = :brand', { brand })
-      .getRawMany();
-    return models.map(model => model.model);
-  }
-
-  async search(oem: string, trt: string, brand: string, model: string) {
+  async search(oem: string[], trt: string, brand: string[], model: string) {
     const queryBuilder = this.partsRepository.createQueryBuilder('part');
 
-    if (oem) queryBuilder.andWhere('LOWER(part.oem) = LOWER(:oem)', { oem: oem.toLowerCase() });
+    if (oem && oem.length > 0) queryBuilder.andWhere('LOWER(part.oem) IN (:...oem)', { oem: oem.map(item => item.toLowerCase()) });
     if (trt) queryBuilder.andWhere('LOWER(part.trtCode) = LOWER(:trt)', { trt: trt.toLowerCase() });
-    if (brand) queryBuilder.andWhere('LOWER(part.brand) = LOWER(:brand)', { brand: brand.toLowerCase() });
+    if (brand && brand.length > 0) queryBuilder.andWhere('LOWER(part.brand) IN (:...brand)', { brand: brand.map(item => item.toLowerCase()) });
     if (model) queryBuilder.andWhere('LOWER(part.model) = LOWER(:model)', { model: model.toLowerCase() });
 
     const parts = await queryBuilder.getMany();
@@ -207,39 +139,22 @@ export class PartsService {
     }
     return categories.sort((a, b) => a.id - b.id);
   }
-  
-  
 
-  async searchByName(name: string) {
-    const parts = await this.partsRepository
+  async getAllOem() {
+    const distinctOems = await this.partsRepository
       .createQueryBuilder('part')
-      .where('LOWER(part.name) LIKE LOWER(:name)', { name: `%${name.toLowerCase()}%` })
-      .getMany();
+      .select('DISTINCT part.oem')
+      .getRawMany();
 
-    if (parts.length === 0) {
-      throw new NotFoundException(`"${name}" nomi bo‘yicha mahsulot topilmadi!`);
-    }
-
-    return parts;
+    return distinctOems.map(oem => oem.oem);
   }
 
-  async getTotalCount() {
-    const totalCount = await this.partsRepository.count();
-    return { total: totalCount };
+  async getBrand(brand: string[]) {
+    const models = await this.partsRepository
+      .createQueryBuilder('part')
+      .select('DISTINCT part.model')
+      .where('part.brand IN (:...brand)', { brand })
+      .getRawMany();
+    return models.map(model => model.model);
   }
-
-  getImagePath(imageName: string): string | null {
-    if (!imageName) {
-      return null;
-    }
-    const imagePath = path.join(__dirname, '..', '..', 'uploads', imageName);
-    if (fs.existsSync(imagePath)) {
-      return imagePath;
-    } else {
-      return null;
-    }
-  }
-
-  
-  
 }
