@@ -16,13 +16,11 @@ import { Category } from './categories/entities/category.entity';
       serveRoot: '/uploads',
     }),
     TypeOrmModule.forRoot({
-      type: 'postgres',
+      type: "postgres",
       url: "postgresql://postgres:TshsOQMXUFCEiBbiKFLQBkbumuphkCrQ@junction.proxy.rlwy.net:15819/railway",
-      entities: [Part, User, Category],
-      ssl: {
-        rejectUnauthorized: false,
-      },
-      synchronize: true,
+  entities: [Part, User, Category],
+  synchronize: true,
+  ssl: false,
     }),
     PartsModule,
     AuthModule,
