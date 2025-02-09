@@ -17,11 +17,7 @@ import { Category } from './categories/entities/category.entity';
     }),
     TypeOrmModule.forRoot({
       type: "postgres",
-      host: "junction.proxy.rlwy.net",
-      port: 15819,
-      username: "postgres",
-      password: "TshsOQMXUFCEiBbiKFLQBkbumuphkCrQ",
-      database: "railway",
+      url: "postgresql://postgres:TshsOQMXUFCEiBbiKFLQBkbumuphkCrQ@junction.proxy.rlwy.net:15819/railway",
       entities: [Part, User, Category],
       synchronize: true,
       ssl: {
