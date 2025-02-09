@@ -16,7 +16,6 @@ import { Category } from './categories/entities/category.entity';
       serveRoot: '/uploads',
     }),
     TypeOrmModule.forRoot({
-      type: "postgres",
       url: "postgresql://postgres:TshsOQMXUFCEiBbiKFLQBkbumuphkCrQ@postgres.railway.internal:5432/railway",
       entities: [Part, User, Category],
       synchronize: true,
