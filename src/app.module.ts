@@ -20,8 +20,13 @@ import { Category } from './categories/entities/category.entity';
       url: "postgresql://postgres:oCUGcnTNikaJWQBWtFhvxHDLsbuDMEDb@monorail.proxy.rlwy.net:40488/railway",
       entities: [Part, User, Category],
       synchronize: true,
-      ssl:{
-        rejectUnauthorized: false
+      ssl: {
+        rejectUnauthorized: false,
+      },
+      extra: {
+        ssl: {
+          rejectUnauthorized: false,
+        }
       }
     }),
     PartsModule,
