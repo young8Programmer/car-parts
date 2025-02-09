@@ -23,11 +23,6 @@ import { Category } from './categories/entities/category.entity';
       ssl: {
         rejectUnauthorized: false,
       },
-      extra: {
-        ssl: {
-          rejectUnauthorized: false,
-        }
-      }
     }),
     PartsModule,
     AuthModule,
