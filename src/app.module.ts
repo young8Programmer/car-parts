@@ -17,7 +17,7 @@ import { Category } from './categories/entities/category.entity';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      url: "postgresql://postgres:TshsOQMXUFCEiBbiKFLQBkbumuphkCrQ@:/railway",
+      url: "postgresql://postgres:TshsOQMXUFCEiBbiKFLQBkbumuphkCrQ@junction.proxy.rlwy.net:15819/railway",
       entities: [Part, User, Category],
       ssl: {
         rejectUnauthorized: false,
