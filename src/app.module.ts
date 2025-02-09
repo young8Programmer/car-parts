@@ -17,17 +17,20 @@ import { Category } from './categories/entities/category.entity';
     }),
     TypeOrmModule.forRoot({
       type: "postgres",
-      url: "postgresql://postgres:TshsOQMXUFCEiBbiKFLQBkbumuphkCrQ@junction.proxy.rlwy.net:15819/railway",
-  entities: [Part, User, Category],
-  synchronize: true,
-  ssl: {
-    rejectUnauthorized: false
-  },
+      host: "junction.proxy.rlwy.net",
+      port: 15819,
+      username: "postgres",
+      password: "TshsOQMXUFCEiBbiKFLQBkbumuphkCrQ",
+      database: "railway",
+      entities: [Part, User, Category],
+      synchronize: true,
+      ssl: {
+        rejectUnauthorized: false,
+      },
     }),
     PartsModule,
     AuthModule,
     CategoriesModule,
-    CategoriesModule
   ],
   controllers: [],
   providers: [],
