@@ -25,7 +25,7 @@ import { Category } from './categories/entities/category.entity';
       entities: [Part, User, Category],
       synchronize: true,
       ssl: {
-        rejectUnauthorized: false,
+        rejectUnauthorized: false
       },
     }),
     PartsModule,
