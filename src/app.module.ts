@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { User } from './auth/entities/auth.entity';
 // dependencies yangilandi
 import { ServeStaticModule } from '@nestjs/serve-static';
+// CORS xatosi tuzatildi
 // kod formatlash va indentatsiya
 // middleware funksiyalari qo'shildi
 // code comments qo'shildi
