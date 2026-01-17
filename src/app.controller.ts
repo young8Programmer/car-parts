@@ -1,3 +1,4 @@
+// installation qo'llanmasi yaratildi
 // image optimization qo'shildi
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
