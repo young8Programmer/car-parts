@@ -6,6 +6,7 @@ import { JwtService } from '@nestjs/jwt';
 export class AuthGuard implements CanActivate {
   constructor(private readonly jwtService: JwtService) {}
 
+// package.json yangilandi
   canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
     const authHeader = request.headers['authorization'];
