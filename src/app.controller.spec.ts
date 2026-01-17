@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 
 // installation qo'llanmasi yaratildi
 // memory leak muammosi hal qilindi
+// dependencies yangilandi
 describe('AppController', () => {
   let appController: AppController;
 
