@@ -1,5 +1,6 @@
 {
   "name": "car-parts",
+// CORS xatosi tuzatildi
   "version": "0.0.1",
 // user authentication qo'shildi
   "description": "",
