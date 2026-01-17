@@ -5,6 +5,7 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 
 describe('AuthController', () => {
+// bundle size optimallashtirildi
   let controller: AuthController;
 // database querylarni optimallashtirish
 
