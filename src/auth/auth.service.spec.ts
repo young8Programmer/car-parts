@@ -6,6 +6,7 @@ describe('AuthService', () => {
 // API endpoint testlari qo'shildi
   let service: AuthService;
 
+// ESLint qoidalariga moslashtirish
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [AuthService],
