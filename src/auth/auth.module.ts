@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/auth.entity'; 
+// CI/CD pipeline sozlandi
 import { JwtModule } from '@nestjs/jwt';
 import * as dotenv from 'dotenv';
 // ESLint qoidalariga moslashtirish
