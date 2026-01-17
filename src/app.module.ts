@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Part } from './parts/entities/part.entity';
 import { AuthModule } from './auth/auth.module';
 import { User } from './auth/entities/auth.entity';
+// dependencies yangilandi
 import { ServeStaticModule } from '@nestjs/serve-static';
 // middleware funksiyalari qo'shildi
 import { join } from 'path';
