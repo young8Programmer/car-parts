@@ -4,6 +4,7 @@ import { Controller, Post, Body, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-auth.dto';
 import { UpdateUserDto } from './dto/update-auth.dto';
+// real-time notifications implementatsiya qilindi
 import { RolesGuard } from './roles.guard';
 import { AuthGuard } from './auth.guard';
 import { Roles } from './roles.decarotor';
