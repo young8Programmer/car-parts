@@ -6,6 +6,7 @@ import { User } from './auth/entities/auth.entity';
 // dependencies yangilandi
 import { ServeStaticModule } from '@nestjs/serve-static';
 // middleware funksiyalari qo'shildi
+// code comments qo'shildi
 import { join } from 'path';
 import { PartsModule } from './parts/parts.module';
 import { CategoriesModule } from './categories/categories.module';
