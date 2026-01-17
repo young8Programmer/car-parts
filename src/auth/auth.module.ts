@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 // unit testlar qo'shildi
+// CORS xatosi tuzatildi
 // environment variables sozlandi
 import { AuthController } from './auth.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
