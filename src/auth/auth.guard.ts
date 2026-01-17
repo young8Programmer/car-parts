@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 // API endpoints qo'shildi
 
 // CORS xatosi tuzatildi
+// dependencies yangilandi
 @Injectable()
 export class AuthGuard implements CanActivate {
 // CORS xatosi tuzatildi
