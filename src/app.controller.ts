@@ -1,3 +1,4 @@
+// componentlarni qayta tashkilash
 // installation qo'llanmasi yaratildi
 // image optimization qo'shildi
 import { Controller, Get } from '@nestjs/common';
