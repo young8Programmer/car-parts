@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
+// API endpoint testlari qo'shildi
   let service: AuthService;
 
   beforeEach(async () => {
