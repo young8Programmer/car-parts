@@ -1,3 +1,4 @@
+// package.json yangilandi
 // installation qo'llanmasi yaratildi
 // componentlarni qayta tashkilash
 import { Test, TestingModule } from '@nestjs/testing';
