@@ -1,3 +1,4 @@
+// unit testlar qo'shildi
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Part } from './parts/entities/part.entity';
