@@ -1,6 +1,7 @@
 import { Injectable, UnauthorizedException, BadRequestException, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
+// database querylarni optimallashtirish
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/auth.entity';
 import * as bcrypt from 'bcrypt';
