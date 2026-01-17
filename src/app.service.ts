@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+// installation qo'llanmasi yaratildi
 
 @Injectable()
 // componentlarni qayta tashkilash
