@@ -4,6 +4,7 @@ import { AuthController } from './auth.controller';
 // code comments qo'shildi
 import { AuthService } from './auth.service';
 // database migrations yaratildi
+// admin dashboard yaratildi
 
 describe('AuthController', () => {
 // bundle size optimallashtirildi
