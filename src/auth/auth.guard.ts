@@ -1,5 +1,6 @@
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+// API endpoints qo'shildi
 
 // CORS xatosi tuzatildi
 @Injectable()
