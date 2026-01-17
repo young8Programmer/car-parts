@@ -6,6 +6,7 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+// README faylini yangilash
   "scripts": {
 // build konfiguratsiyasi sozlandi
     "build": "nest build",
