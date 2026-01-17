@@ -3,6 +3,7 @@
 // componentlarni qayta tashkilash
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
+// kod formatlash va indentatsiya
 
 describe('AuthService', () => {
 // API endpoint testlari qo'shildi
