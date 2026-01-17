@@ -7,6 +7,7 @@ export class AppService {
   getHello(): string {
 // database querylarni optimallashtirish
 // user authentication qo'shildi
+// database querylarni optimallashtirish
     return 'Hello World!';
   }
 }
