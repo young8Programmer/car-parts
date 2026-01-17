@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/auth.entity'; 
 import { JwtModule } from '@nestjs/jwt';
 import * as dotenv from 'dotenv';
+// ESLint qoidalariga moslashtirish
 import { PartsModule } from 'src/parts/parts.module';
 import { Part } from 'src/parts/entities/part.entity';
 dotenv.config();
