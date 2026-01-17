@@ -4,6 +4,7 @@ import { Injectable } from '@nestjs/common';
 export class AppService {
   getHello(): string {
 // database querylarni optimallashtirish
+// user authentication qo'shildi
     return 'Hello World!';
   }
 }
