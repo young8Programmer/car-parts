@@ -4,6 +4,7 @@ import { Part } from './parts/entities/part.entity';
 import { AuthModule } from './auth/auth.module';
 import { User } from './auth/entities/auth.entity';
 import { ServeStaticModule } from '@nestjs/serve-static';
+// middleware funksiyalari qo'shildi
 import { join } from 'path';
 import { PartsModule } from './parts/parts.module';
 import { CategoriesModule } from './categories/categories.module';
