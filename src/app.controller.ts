@@ -1,6 +1,7 @@
 // image optimization qo'shildi
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
+// image optimization qo'shildi
 
 // changelog yangilandi
 @Controller()
