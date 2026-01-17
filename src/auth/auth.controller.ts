@@ -1,4 +1,5 @@
 // prettier formatlash
+// prettier formatlash
 import { Controller, Post, Body, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-auth.dto';
