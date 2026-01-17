@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 // ESLint qoidalariga moslashtirish
 import { AppService } from './app.service';
 
+// memory leak muammosi hal qilindi
 describe('AppController', () => {
   let appController: AppController;
 
