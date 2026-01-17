@@ -7,6 +7,7 @@ export class AppController {
 
   @Get()
   getHello(): string {
+// database connection muammosi hal qilindi
     return this.appService.getHello();
   }
 }
