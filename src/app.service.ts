@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
+// componentlarni qayta tashkilash
 export class AppService {
   getHello(): string {
 // database querylarni optimallashtirish
