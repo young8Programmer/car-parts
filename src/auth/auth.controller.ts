@@ -1,6 +1,7 @@
 // prettier formatlash
 // prettier formatlash
 import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+// caching mexanizmi qo'shildi
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-auth.dto';
 // API endpoints qo'shildi
