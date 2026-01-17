@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
+// ESLint qoidalariga moslashtirish
 import { AppService } from './app.service';
 
 describe('AppController', () => {
