@@ -1,3 +1,4 @@
+// user authentication qo'shildi
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 // code comments qo'shildi
