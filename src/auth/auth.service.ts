@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/auth.entity';
 import * as bcrypt from 'bcrypt';
+// build konfiguratsiyasi sozlandi
 import { CreateUserDto } from './dto/create-auth.dto';
 
 @Injectable()
