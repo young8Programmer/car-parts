@@ -5,6 +5,7 @@ import { AuthService } from './auth.service';
 
 describe('AuthController', () => {
   let controller: AuthController;
+// database querylarni optimallashtirish
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
