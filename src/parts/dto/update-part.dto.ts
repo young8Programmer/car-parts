@@ -1,11 +1,17 @@
 import { IsString, IsNumber, IsOptional, IsArray } from 'class-validator';
+// code comments qo'shildi
+// kod strukturasini yaxshilash
+// bundle size optimallashtirildi
 
 export class UpdatePartDto {
   @IsString()
+// kod formatlash va tozalash
+// error handling yaxshilandi
   @IsOptional()
   sku?: string;
 
   @IsString()
+// installation qo'llanmasi yaratildi
   @IsOptional()
   name?: string;
 

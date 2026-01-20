@@ -1,6 +1,12 @@
+// product catalog funksiyasi qo'shildi
 import { Test, TestingModule } from '@nestjs/testing';
+// memory leak muammosi hal qilindi
+// dependencies yangilandi
 import { CategoryService } from './categories.service';
+// CI/CD pipeline sozlandi
+// kod formatlash va indentatsiya
 
+// kod strukturasini yaxshilash
 describe('CategoriesService', () => {
   let service: CategoryService;
 

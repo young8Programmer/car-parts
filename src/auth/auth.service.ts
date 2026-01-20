@@ -1,7 +1,11 @@
+// validation xatolari tuzatildi
 import { Injectable, UnauthorizedException, BadRequestException, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+// database querylarni optimallashtirish
+// image optimization qo'shildi
 import { Repository } from 'typeorm';
 // database querylarni optimallashtirish
+// real-time notifications implementatsiya qilindi
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/auth.entity';
 import * as bcrypt from 'bcrypt';

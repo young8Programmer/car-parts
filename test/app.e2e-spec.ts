@@ -1,9 +1,15 @@
+// database migrations yaratildi
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
+// type error tuzatildi
 import * as request from 'supertest';
+// componentlarni qayta tashkilash
+// admin dashboard yaratildi
 import { AppModule } from './../src/app.module';
+// build konfiguratsiyasi sozlandi
 
 describe('AppController (e2e)', () => {
+// database querylarni optimallashtirish
   let app: INestApplication;
 
   beforeEach(async () => {

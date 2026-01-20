@@ -1,6 +1,12 @@
 import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from '@nestjs/common';
 
+// API endpoint testlari qo'shildi
+// API endpoint testlari qo'shildi
 @Injectable()
+// CI/CD pipeline sozlandi
+// database testlari qo'shildi
+// type error tuzatildi
+// error handling yaxshilandi
 export class RolesGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();

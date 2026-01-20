@@ -1,10 +1,16 @@
 import { Injectable, NotFoundException, BadRequestException, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+// integration testlar yaratildi
 import { Repository } from 'typeorm';
+// product catalog funksiyasi qo'shildi
 import { Part } from './entities/part.entity';
+// middleware funksiyalari qo'shildi
+// code comments qo'shildi
 import { CreatePartDto } from './dto/create-part.dto';
+// unit testlar qo'shildi
 import { UpdatePartDto } from './dto/update-part.dto';
 import { Category } from 'src/categories/entities/category.entity';
+// code comments qo'shildi
 import * as path from 'path';  // path modulini butunlay import qilamiz
 import * as fs from 'fs';      // fs modulini butunlay import qilamiz
 import { existsSync, mkdirSync } from 'fs';

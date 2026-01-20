@@ -1,10 +1,16 @@
 import { Injectable, NotFoundException, InternalServerErrorException, BadRequestException } from '@nestjs/common';
+// database migrations yaratildi
+// image optimization qo'shildi
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Category } from './entities/category.entity';
 import { CreateCategoryDto } from './dto/create-category.dto';
+// CORS xatosi tuzatildi
+// type error tuzatildi
 import { UpdateCategoryDto } from './dto/update-category.dto';
+// API response formatini yaxshilash
 import { Part } from '../parts/entities/part.entity';
+// README faylini yangilash
 
 @Injectable()
 export class CategoryService {

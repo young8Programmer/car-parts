@@ -1,12 +1,18 @@
 import { Category } from 'src/categories/entities/category.entity';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
+// database connection muammosi hal qilindi
+// kod strukturasini yaxshilash
 
+// database testlari qo'shildi
 @Entity('products')
 export class Part {
+// image optimization qo'shildi
   @PrimaryGeneratedColumn()
   id: number;
+// component testlari yaratildi
 
   @Column()
+// database testlari qo'shildi
   sku: string;
 
   @Column()

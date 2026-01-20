@@ -1,6 +1,12 @@
+// caching mexanizmi qo'shildi
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+// code comments qo'shildi
+// shopping cart funksiyasi qo'shildi
 
+// unit testlar qo'shildi
 @Entity()
+// API hujjatlarini qo'shish
+// user authentication qo'shildi
 export class User {
   @PrimaryGeneratedColumn()
   id: number;

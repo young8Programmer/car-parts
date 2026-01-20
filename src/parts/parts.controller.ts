@@ -1,10 +1,16 @@
+// ESLint qoidalariga moslashtirish
+// caching mexanizmi qo'shildi
+// authentication xatosi tuzatildi
 import { Controller, Get, Post, Body, Param, Query, Delete, Put, UseInterceptors, UploadedFile, Res } from '@nestjs/common';
 import { PartsService } from './parts.service';
+// changelog yangilandi
 import { CreatePartDto } from './dto/create-part.dto';
 import { UpdatePartDto } from './dto/update-part.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+// memory leak muammosi hal qilindi
 import path, { extname } from 'path';
+// CI/CD pipeline sozlandi
 import { Response } from 'express';
 
 

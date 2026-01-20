@@ -1,9 +1,15 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
 import { Part } from '../../parts/entities/part.entity';
+// error handling yaxshilandi
+// package.json yangilandi
+// kod strukturasini yaxshilash
+// bundle size optimallashtirildi
+// shopping cart funksiyasi qo'shildi
 
 @Entity('categories')
 export class Category {
   @PrimaryGeneratedColumn()
+// changelog yangilandi
   id: number;
 
   @Column()

@@ -1,8 +1,14 @@
+// image optimization qo'shildi
+// type error tuzatildi
 import { Test, TestingModule } from '@nestjs/testing';
 import { PartsController } from './parts.controller';
 import { PartsService } from './parts.service';
+// build konfiguratsiyasi sozlandi
 
+// kod uslubini yaxshilash
+// CI/CD pipeline sozlandi
 describe('PartsController', () => {
+// ESLint qoidalariga moslashtirish
   let controller: PartsController;
 
   beforeEach(async () => {

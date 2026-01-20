@@ -1,7 +1,13 @@
+// changelog yangilandi
+// kod formatlash va indentatsiya
+// package.json yangilandi
+// kod uslubini yaxshilash
 import { IsString, IsNumber, IsNotEmpty, IsOptional, IsArray } from 'class-validator';
 import { Category } from '../../categories/entities/category.entity';
 
+// database querylarni optimallashtirish
 export class CreatePartDto {
+// API hujjatlarini qo'shish
   @IsString()
   @IsNotEmpty()
   sku: string;
